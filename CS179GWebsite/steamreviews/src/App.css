@@ -4,15 +4,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   color: white;
   overflow-y: auto;
 }
 
 .Web-Header {
   background-color: orangered;
+  text-decoration: underline;
 }
 
 .Web-Body {
   background-color: red;
+  flex-direction: row;
 }
