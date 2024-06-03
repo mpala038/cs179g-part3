@@ -1,0 +1,19 @@
+.Task5-Body {
+    background-color: black;
+    margin-bottom: 1%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+table th, table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+  
+table th {
+    background-color: green;
+}

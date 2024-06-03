@@ -10,11 +10,12 @@
 }
 
 .Web-Header {
-  background-color: orangered;
+  /*background-color: orangered;*/
   text-decoration: underline;
 }
 
 .Web-Body {
-  background-color: red;
-  flex-direction: row;
+  /*background-color: red; */
+  width: 1528px;
+  height: 690px;
 }
