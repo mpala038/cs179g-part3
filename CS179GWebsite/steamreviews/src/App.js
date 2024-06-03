@@ -5,6 +5,7 @@ import Task3 from './components/Task3.js';
 import Task4 from './components/Task4.js';
 import Task5 from './components/Task5.js';
 import Task6 from './components/Task6.js';
+import SteamLogo from './assets/SteamLogo.jpg'
 
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
         <Task5></Task5>
         <Task6></Task6>
       </div>
+      <img src={SteamLogo} id="SteamID"></img>
+      <img src={SteamLogo} id="Steam2ID"></img>
     </div>
   );
 }

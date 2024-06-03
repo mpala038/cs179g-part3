@@ -19,3 +19,19 @@
   width: 1528px;
   height: 690px;
 }
+
+#SteamID {
+  max-width: 80px;
+  position: relative;
+  top: -760px;
+  left: -200px;
+  border-radius: 3rem;
+}
+
+#Steam2ID {
+  max-width: 80px;
+  position: relative;
+  top: -840px;
+  left: 200px;
+  border-radius: 3rem;
+}
