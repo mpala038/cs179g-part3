@@ -27,7 +27,7 @@ app.use(express.json());
 
 app.get('/task5', (req, res) => {
   // Fetch tasks from database
-  db.query('SELECT * FROM task5', (err, results) => {
+  db.query('SELECT TOP 5 * FROM task5', (err, results) => {
     if (err) {
       res.status(500).send('Error retrieving tasks from database');
       return;
@@ -36,6 +36,7 @@ app.get('/task5', (req, res) => {
   });
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
