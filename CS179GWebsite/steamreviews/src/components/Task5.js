@@ -3,44 +3,83 @@ import './Task5.css'
 
 const Task5 = () => {
   const [tasks, setTasks] = useState([]);
+  const [page, setPage] = useState(1);
+  const [appName, setAppName] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/task5')
-      .then(response => response.json())
-      .then(data => setTasks(data))
-      .catch(error => console.error('Error fetching tasks:', error));
-  }, []);
+    const fetchData = async () => {
+      try {
+        const encodedAppName = encodeURIComponent(appName);
+        const response = await fetch(`http://localhost:5000/task5?page=${page}&appName=${appName}`);
+        console.log(`Fetching data from: http://localhost:5000/task5?page=${page}&appName=${appName}`); // Log the URL
+        const data = await response.json();
+        setTasks(data);
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
 
-  const limitedTasks = tasks.slice(0, 5); //fetch up to 5 rows 
+    fetchData();
+  }, [page, appName]); // Refetch data when the page changes
+
+  const handleNextPage = () => {
+    setPage(prevPage => prevPage + 1);
+    console.log(page);
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage(prevPage => prevPage - 1);
+      console.log(page);
+    }
+  };
+
+  const handleSearch = () => {
+    setAppName(searchTerm);
+    setPage(1); // Reset to first page on new search
+  };
 
   return (
     <div className="Task5-Body">
-      <h2>How popular or relevant is a game based on the reviews it gets over time?</h2>
-      <table>
-        <thead>
-          <tr>
-            {/*Change the column names for the names of the actual column names for each specific task*/}
-            <th>Column 1</th> 
-            <th>Column 2</th>
-            <th>Column 3</th>
-            <th>Column 4</th>
-            <th>Column 5</th>
-          </tr>
-        </thead>
-        <tbody>
-          {limitedTasks.map(task => (
+      <h2>How popular or relevant is a game based on the reviews it
+gets over time?</h2>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
+        placeholder="Search by App Name"
+      />
+      <button onClick={handleSearch}>Search</button>
+        <table>
+          <thead>
             <tr>
-              {/* Have the data represented here from each row for each column*/}
-              <td>{task.column1}</td>
-              <td>{task.column2}</td>
-              <td>{task.column3}</td>
-              <td>{task.column4}</td>
-              <td>{task.column5}</td>
+              <th>App ID</th>
+              <th>App Name</th>
+              <th>Total Review Count</th>
+              <th>Earliest Review Date</th>
+              <th>Latest Review Date</th>
+              <th>Popularity Score</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {tasks.map(task => (
+              <tr key={task.id}>
+                <td>{task.app_id}</td>
+                <td>{task.app_name}</td>
+                <td>{task.total_rev_count}</td>
+                <td>{task.earliest_review_date}</td>
+                <td>{task.latest_review_date}</td>
+                <td>{task.popularity_score}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div>
+          <button onClick={handlePreviousPage} disabled={page === 1}>Previous</button>
+          <button onClick={handleNextPage}>Next</button>
+        </div>
+      </div>                
   );
 };
 
