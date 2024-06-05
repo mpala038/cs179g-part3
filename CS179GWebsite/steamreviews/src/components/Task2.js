@@ -6,13 +6,14 @@ const Task2 = () => {
   const [page, setPage] = useState(1);
   const [appName, setAppName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('desc');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const encodedAppName = encodeURIComponent(appName);
-        const response = await fetch(`http://localhost:5000/task2?page=${page}&appName=${appName}`);
-        console.log(`Fetching data from: http://localhost:5000/task2?page=${page}&appName=${appName}`); // Log the URL
+        const response = await fetch(`http://localhost:5000/task2?page=${page}&sortBy=${sortBy}&appName=${appName}`);
+        console.log(`Fetching data from: http://localhost:5000/task2?page=${page}&sortBy=${sortBy}&appName=${appName}`); // Log the URL
         const data = await response.json();
         setTasks(data);
       } catch (error) {
@@ -21,7 +22,7 @@ const Task2 = () => {
     };
 
     fetchData();
-  }, [page, appName]); // Refetch data when the page changes
+  }, [page, appName, sortBy]); // Refetch data when the page changes
 
   const handleNextPage = () => {
     setPage(prevPage => prevPage + 1);
@@ -40,6 +41,11 @@ const Task2 = () => {
     setPage(1); // Reset to first page on new search
   };
 
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+    setPage(1);
+  };
+
   return (
     <div className="Task2-Body">
       <h2>Does a review having harsh language lead to a bad review with lower
@@ -51,6 +57,13 @@ helpful votes in Steam?</h2>
         placeholder="Search by App Name"
       />
       <button onClick={handleSearch}>Search</button>
+      <div className="sort-options">
+        <label htmlFor="sort-by">Sort By:</label>
+        <select id="sort-by" value={sortBy} onChange={handleSortChange}>
+          <option value="desc">Descending Votes Helpful </option>
+          <option value="asc">Ascending Votes Helpful</option>
+        </select>
+      </div>
         <table>
           <thead>
             <tr>

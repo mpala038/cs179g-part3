@@ -4,12 +4,13 @@ import './Task4.css'
 const Task4 = () => {    
   const [tasks, setTasks] = useState([]);
   const [page, setPage] = useState(1);
-  
+  const [sortBy, setSortBy] = useState('desc');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/task4?page=${page}`);
-        console.log(`Fetching data from: http://localhost:5000/task4?page=${page}`); // Log the URL
+        const response = await fetch(`http://localhost:5000/task4?page=${page}&sortBy=${sortBy}`);
+        console.log(`Fetching data from: http://localhost:5000/task4?page=${page}&sortBy=${sortBy}`); // Log the URL
         const data = await response.json();
         setTasks(data);
       } catch (error) {
@@ -18,7 +19,7 @@ const Task4 = () => {
     };
 
     fetchData();
-  }, [page]); // Refetch data when the page changes
+  }, [page, sortBy]); // Refetch data when the page changes
 
   const handleNextPage = () => {
     setPage(prevPage => prevPage + 1);
@@ -32,10 +33,22 @@ const Task4 = () => {
     }
   };
 
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+    setPage(1);
+  };
+  
   return (
     <div className="Task4-Body">
       <h2>Are there certain keywords or phrases that lead to a review being marked
 as helpful?</h2>
+      <div className="sort-options">
+        <label htmlFor="sort-by">Sort By:</label>
+        <select id="sort-by" value={sortBy} onChange={handleSortChange}>
+          <option value="desc">Descending Count</option>
+          <option value="asc">Ascending Count</option>
+        </select>
+      </div>
       <table>
         <thead>
           <tr>
