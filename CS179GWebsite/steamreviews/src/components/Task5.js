@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import './Task5.css'
+import React, { useState, useEffect } from 'react'
+import './Task6.css'
 
-const Task5 = () => {
+const Task6 = () => {    
   const [tasks, setTasks] = useState([]);
   const [page, setPage] = useState(1);
   const [appName, setAppName] = useState('');
@@ -12,8 +12,8 @@ const Task5 = () => {
     const fetchData = async () => {
       try {
         const encodedAppName = encodeURIComponent(appName);
-        const response = await fetch(`http://localhost:5000/task5?page=${page}&sortBy=${sortBy}&appName=${appName}`);
-        console.log(`Fetching data from: http://localhost:5000/task5?page=${page}&sortBy=${sortBy}&appName=${appName}`); // Log the URL
+        const response = await fetch(`http://localhost:5000/task6?page=${page}&sortBy=${sortBy}&appName=${appName}`);
+        console.log(`Fetching data from: http://localhost:5000/task6?page=${page}&sortBy=${sortBy}&appName=${appName}`); // Log the URL
         const data = await response.json();
         setTasks(data);
       } catch (error) {
@@ -47,9 +47,9 @@ const Task5 = () => {
   };
 
   return (
-    <div className="Task5-Body">
-      <h2>How popular or relevant is a game based on the reviews it
-gets over time?</h2>
+    <div className="Task6-Body">
+      <h2>How credible an author is based on their reviews and review count (based
+on written reviews ever made on Steam)?</h2>
       <input
         type="text"
         value={searchTerm}
@@ -60,30 +60,32 @@ gets over time?</h2>
       <div className="sort-options">
         <label htmlFor="sort-by">Sort By:</label>
         <select id="sort-by" value={sortBy} onChange={handleSortChange}>
-          <option value="desc">Descending Popularity Score</option>
-          <option value="asc">Ascending Popularity Score</option>
+          <option value="desc">Descending Author Lifetime Reviews</option>
+          <option value="asc">Ascending Author Lifetime Reviews</option>
         </select>
       </div>
         <table>
           <thead>
             <tr>
-              <th>App ID</th>
+              {/*Change the column names for the names of the actual column names for each specific task*/}
+              <th>Author Steam ID</th> 
               <th>App Name</th>
-              <th>Total Review Count</th>
-              <th>Earliest Review Date</th>
-              <th>Latest Review Date</th>
-              <th>Popularity Score</th>
+              <th>Review</th>
+              <th>Author Lifetime Review Count</th>
+              <th>Votes Helpful</th>
+              <th>Author Average Helpful Votes</th>
             </tr>
           </thead>
           <tbody>
             {tasks.map(task => (
-              <tr key={task.id}>
-                <td>{task.app_id}</td>
+              <tr>
+                {/* Have the data represented here from each row for each column*/}
+                <td>{task.author_steamid}</td>
                 <td>{task.app_name}</td>
-                <td>{task.total_rev_count}</td>
-                <td>{task.earliest_review_date}</td>
-                <td>{task.latest_review_date}</td>
-                <td>{task.popularity_score}</td>
+                <td>{task.review}</td>
+                <td>{task.author_num_reviews}</td>
+                <td>{task.votes_helpful}</td>
+                <td>{task.avg_helpful_votes}</td>
               </tr>
             ))}
           </tbody>
@@ -92,8 +94,8 @@ gets over time?</h2>
           <button onClick={handlePreviousPage} disabled={page === 1}>Previous</button>
           <button onClick={handleNextPage}>Next</button>
         </div>
-      </div>                
-  );
-};
+    </div>                
+  )
+}
 
-export default Task5;
+export default Task6;
